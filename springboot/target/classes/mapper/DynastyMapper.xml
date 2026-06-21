@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DynastyMapper">
+    <select id="selectAll" resultType="com.example.entity.Dynasty">
+        select * from dynasties
+    </select>
+
+    <select id="selectById" parameterType="Integer" resultType="com.example.entity.Dynasty">
+        select * from dynasties where id = #{id}
+    </select>
+
+    <select id="selectIdByName" parameterType="String" resultType="Integer">
+        select id from dynasties where name = #{name} LIMIT 1
+    </select>
+
+    <select id="selectNameById" parameterType="Integer" resultType="String">
+        select name from dynasties where id = #{id}
+    </select>
+    
+    <select id="selectIntroductionById" parameterType="int" resultType="String">
+        select introduction from dynasties where id = #{id}
+    </select>
+
+    <select id="selectPowersById" parameterType="int" resultType="com.example.entity.Power">
+        SELECT pow.*
+        FROM powers pow JOIN power_dynasty pd ON pow.id = pd.power_id
+        WHERE pd.dynasty_id = #{id}
+    </select>
+</mapper>

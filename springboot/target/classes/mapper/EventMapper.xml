@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.EventMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Event">
+        select * from events
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Event" parameterType="Integer">
+        select * from events where id = #{id}
+    </select>
+
+    <select id="selectIdByName" resultType="int" parameterType="String">
+        select id from events where name = #{name} LIMIT 1
+    </select>
+
+    <select id="selectNameById" resultType="String" parameterType="Integer">
+        select name from events where id = #{id}
+    </select>
+
+    <select id="selectIntroductionById" resultType="String" parameterType="Integer">
+        select introduction from events where id = #{id}
+    </select>
+
+    <select id="selectDetailById" resultType="String" parameterType="Integer">
+        select details from events where id = #{id}
+    </select>
+
+    <select id="selectPersonById" parameterType="Integer" resultType="com.example.entity.Person">
+        SELECT p.*
+        FROM persons p JOIN event_person ep ON p.id = ep.person_id
+        WHERE ep.event_id = #{id}
+    </select>
+
+    <update id="updateById" parameterType="com.example.entity.Event">
+        UPDATE events SET name = #{name}, introduction = #{introduction}, details = #{detail} WHERE id = #{id}
+    </update>
+
+    <select id="selectCommentsById" parameterType="Integer" resultType="com.example.DTO.Comment"
+            resultMap="CommentResultMap">
+        select * from comments where event_id = #{id}
+    </select>
+
+    <resultMap id="CommentResultMap" type="com.example.DTO.Comment">
+        <id property="id" column="id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="event_id" column="event_id"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+</mapper>

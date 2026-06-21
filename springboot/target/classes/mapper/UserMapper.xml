@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.UserMapper">
+
+    <select id="selectAll" resultType="com.example.entity.User">
+        select * from users order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.User" parameterType="Integer">
+        select * from users where id = #{id}
+    </select>
+
+    <select id="selectIdByName" resultType="Integer" parameterType="String">
+        select id from users where name = #{name} LIMIT 1
+    </select>
+
+    <select id="selectNameById" resultType="String" parameterType="Integer">
+        select name from users where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.entity.User">
+        INSERT INTO users (name, password)
+        VALUES (#{name}, #{password})
+    </insert>
+
+    <delete id="deleteCollectionById" parameterType="Integer">
+        DELETE FROM collections where id = #{id}
+    </delete>
+
+    <delete id="deleteCommentById" parameterType="Integer">
+        DELETE FROM comments where id = #{id}
+    </delete>
+
+    <delete id="deleteById" parameterType="Integer">
+        DELETE FROM users where id = #{id}
+    </delete>
+
+    <update id="updateById" parameterType="com.example.entity.User">
+        UPDATE users SET name = #{name}, password = #{password} WHERE id = #{id}
+    </update>
+
+    <insert id="collectWithEvent" parameterType="com.example.DTO.Collection">
+        INSERT INTO collections (user_id, event_id) VALUES (#{user_id},#{event_id})
+    </insert>
+
+    <insert id="commentWithEvent" parameterType="com.example.DTO.Comment">
+        INSERT INTO comments (user_id, event_id, content) VALUES (#{user_id},#{event_id},#{content})
+    </insert>
+
+    <delete id="deleteCollection" parameterType="com.example.DTO.Collection">
+        DELETE FROM collections WHERE user_id = #{user_id} and event_id = #{event_id}
+    </delete>
+
+    <select id="selectCollection" parameterType="com.example.DTO.Collection" resultType="com.example.DTO.Collections">
+    SELECT * from collections WHERE user_id = #{user_id} and event_id = #{event_id}
+    </select>
+
+    <select id="selectCollectionIdsById" parameterType="Integer" resultType="Integer">
+        SELECT event_id from collections WHERE user_id = #{id}
+    </select>
+
+    <select id="selectCommentsById" parameterType="Integer" resultType="com.example.DTO.Comment"
+            resultMap="CommentResultMap">
+        SELECT * from comments WHERE user_id = #{id}
+    </select>
+
+    <delete id="deleteComment" parameterType="com.example.DTO.Comment">
+        DELETE FROM comments WHERE user_id = #{user_id} and event_id = #{event_id} and content = #{content}
+    </delete>
+
+    <resultMap id="CommentResultMap" type="com.example.DTO.Comment">
+        <id property="id" column="id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="event_id" column="event_id"/>
+        <result property="content" column="content"/>
+    </resultMap>
+</mapper>

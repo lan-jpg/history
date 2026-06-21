@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.PowerMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Power">
+        select * from powers
+    </select>
+
+    <select id="selectNameById" resultType="String" parameterType="Integer">
+        select name from powers where id = #{id} LIMIT 1
+    </select>
+
+    <select id="selectIdByName" resultType="Integer" parameterType="String">
+        select id from powers where name = #{name}
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Power" parameterType="Integer">
+        select * from powers where id = #{id}
+    </select>
+
+    <select id="selectIntroductionById" resultType="String" parameterType="Integer">
+        select introduction from powers where id = #{id}
+    </select>
+
+    <select id="selectDynastyById" resultType="com.example.entity.Dynasty" parameterType="Integer">
+        SELECT d.*
+        FROM dynasties d JOIN power_dynasty pd ON d.id = pd.dynasty_id
+        WHERE pd.power_id = #{id}
+    </select>
+
+    <select id="selectPersonsById" resultType="com.example.entity.Person" parameterType="Integer">
+        SELECT p.*
+        FROM persons p JOIN person_power pp ON p.id = pp.person_id
+        WHERE pp.power_id = #{id}
+        ORDER BY pp.position
+    </select>
+
+</mapper>

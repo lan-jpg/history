@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.PersonMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Person">
+        select * from persons
+    </select>
+
+    <select id="selectNameById" resultType="String" parameterType="Integer">
+        select name from persons where id = #{id} LIMIT 1
+    </select>
+
+    <select id="selectIdByName" resultType="Integer" parameterType="String">
+        select id from persons where name = #{name}
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Person" parameterType="Integer">
+        select * from persons where id = #{id}
+    </select>
+
+    <select id="selectIntroductionById" resultType="String" parameterType="Integer">
+        select introduction from persons where id = #{id}
+    </select>
+
+    <select id="selectPowerById" resultType="com.example.entity.Power" parameterType="Integer">
+        SELECT pow.*
+        FROM powers pow JOIN person_power pp ON pow.id = pp.power_id
+        WHERE pp.person_id = #{id}
+    </select>
+
+    <select id="selectEventsById" resultType="com.example.entity.Event" parameterType="Integer">
+        SELECT e.*
+        FROM events e JOIN event_person ep ON e.id = ep.event_id
+        WHERE ep.person_id = #{id}
+    </select>
+
+    <select id="selectTimeById" resultType="String" parameterType="Integer">
+        SELECT time FROM person_power WHERE person_id = #{id}
+    </select>
+
+</mapper>
